@@ -10,37 +10,82 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
+import dj_database_url
 import os
 
+from decouple import config
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+APPS_DIR = os.path.join(BASE_DIR, 'django_apps')
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
-
+# SECRET KEY
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/ref/settings/#std:setting-SECRET_KEY
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x2m5iak*h&r@vci$phjlbuqgo1$t!r15ln3hx=*rq^fg+02r1&'
 
+SECRET_KEY = config('SECRET_KEY')
+
+
+# DEBUG
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/ref/settings/#debug
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = config('DEBUG', cast=bool)
 
 
-# Application definition
+# MANAGER CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/ref/settings/#admins
+# https://docs.djangoproject.com/en/1.10/ref/settings/#managers
 
-INSTALLED_APPS = [
+ADMINS = (
+    ("""Michael A. Gonzalez""", 'GonzalezMA.CHOP@gmail.com'),
+)
+
+MANAGERS = ADMINS
+
+
+# APP CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/ref/settings/#installed-apps
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE = [
+THIRD_PARTY_APPS = [
+    'allauth',
+    'allauth.account',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'webpack_loader',
+]
+
+LOCAL_APPS = []
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+
+# MIDDLEWARE CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/topics/http/middleware/
+
+DJANGO_SECURITY_MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+]
+
+DJANGO_MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,12 +94,24 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MIDDLEWARE = DJANGO_SECURITY_MIDDLEWARE + DJANGO_MIDDLEWARE
+
+
+# URL Configuration
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/ref/settings/#root-urlconf
+
 ROOT_URLCONF = 'django_config.urls'
+
+
+# TEMPLATE CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/topics/templates/
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(APPS_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,21 +124,31 @@ TEMPLATES = [
     },
 ]
 
+
+# WGSI CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/ref/settings/#wsgi-application
+
 WSGI_APPLICATION = 'django_config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+# DATABASE CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.parse(config('DATABASE_URL')),
 }
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
+# Added this to support deployment on Heroku
+# https://devcenter.heroku.com/articles/django-app-configuration
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 
-# Password validation
+# PASSWORD VALIDATION
+# ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -100,7 +167,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
+# GENERAL CONFIGURATION
+# ------------------------------------------------------------------------------
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# In a Windows environment this must be set to your system time zone.
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
@@ -113,8 +185,66 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
-# Static files (CSS, JavaScript, Images)
+
+# STATIC FILE CONFIGURATION
+# ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+
+
+# MEDIA CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/ref/settings/#media-root
+# https://docs.djangoproject.com/en/1.10/ref/settings/#media-url
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
+
+
+# Django REST framework
+# ------------------------------------------------------------------------------
+# http://www.django-rest-framework.org/
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+
+# Django REST-AUTH framework
+# ------------------------------------------------------------------------------
+# https://github.com/Tivix/django-rest-auth/
+
+REST_USE_JWT = True
+
+
+# EMAIL CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/topics/email/
+
+# EMAIL CONFIGURATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/1.10/topics/email/
+
+EMAIL_PORT = config('EMAIL_PORT')
+
+EMAIL_HOST = config('EMAIL_HOST')
+
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
