@@ -1,0 +1,8 @@
+# Import all base requirements
+-r base.txt
+
+# Django debug toolbar
+django-debug-toolbar==1.6
+
+# Code linter
+pep8==1.7.0

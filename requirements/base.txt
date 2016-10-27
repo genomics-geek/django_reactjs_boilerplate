@@ -1,0 +1,21 @@
+# Django
+django==1.10.2
+
+# Configuration
+dj-database-url==0.4.1
+python-decouple==3.0
+whitenoise==3.2.2
+
+# Django 3rd party modules
+django-allauth==0.28.0
+django-model-utils==2.6
+django-rest-auth==0.8.1
+django-webpack-loader==0.3.3
+djangorestframework==3.5.1
+djangorestframework-jwt==1.8.0
+
+# Python-PostgreSQL Database Adapter
+psycopg2==2.6.2
+
+# Time zones support
+pytz==2016.7

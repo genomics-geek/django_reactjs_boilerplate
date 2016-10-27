@@ -1,0 +1,9 @@
+# Import all base requirements
+# Pro-tip: Try not to put anything here. Avoid dependencies in production that aren't in development.
+-r base.txt
+
+# WSGI Handler
+gunicorn==19.6.0
+
+# Email backend
+django-anymail==0.5
