@@ -1,21 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import HelloWorld from './components/hello-world';
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+
+import Root from './containers/Root';
+import configureStore from './store';
+
+
+const store = configureStore();
+const history = syncHistoryWithStore(browserHistory, store);
+
 
 ReactDOM.render(
   <AppContainer>
-    <HelloWorld />
+    <Root store={store} history={history} />
   </AppContainer>,
   document.getElementById('react-root')
 );
 
 if (module.hot) {
-  module.hot.accept('./components/hello-world', () => {
-    const HelloWorld = require('./components/hello-world').default;
+  module.hot.accept('./containers/Root', () => {
+    const Root = require('./containers/Root').default;
     ReactDOM.render(
       <AppContainer>
-        <HelloWorld />
+        <Root store={store} history={history} />
       </AppContainer>,
       document.getElementById('react-root')
     );
