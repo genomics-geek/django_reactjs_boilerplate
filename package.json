@@ -4,7 +4,10 @@
   "description": "A boilerplate for a Django REST/ReactJS project using Redux, Webpack, Hot Reloading, React Hot Reloader 3, Karma, and Mocha",
   "main": "index.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-development": "webpack --config webpack/webpack.local.config.js --progress --colors",
+    "build-production": "webpack --config webpack/webpack.production.config.js --progress --colors",
+    "watch": "webpack-dev-server --config webpack/webpack.local.config.js",
+    "test": "./node_modules/karma/bin/karma start webpack/karma.config.js --log-level debug"
   },
   "repository": {
     "type": "git",
