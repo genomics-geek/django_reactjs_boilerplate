@@ -19,7 +19,10 @@
     "comma-dangle": 0,
     "arrow-body-style": ["error", "always"],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-    "max-len": ["error", { "comments": 120, "code": 120 }]
+    "max-len": ["error", { "comments": 120, "code": 120 }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
+    "arrow-body-style": ["error", "as-needed"]
   },
   "plugins": [
     "react"
