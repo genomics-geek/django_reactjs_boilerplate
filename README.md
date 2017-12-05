@@ -1,5 +1,7 @@
 # An example project for a Dockerized Django/ReactJS web application
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/genomics-geek/django_reactjs_boilerplate.svg)](https://greenkeeper.io/)
+
 I set this up because it was __SUCH__ a pain in the a** to set up a web application with all of the latest technologies.  I created this as a boilerplate after much research and reading of blogs. For a detailed step by step for creating this project look [here](https://gist.github.com/genomics-geek/98929a9e7ba9602fed7bfa4a5a1c5c4e/). Or you can just clone [this repo](https://github.com/genomics-geek/django_reactjs_boilerplate) and follow the [local deployment instructions](https://github.com/genomics-geek/django_reactjs_boilerplate#setup-local-environment).
 
 This is an example of a project that uses the following technologies:
