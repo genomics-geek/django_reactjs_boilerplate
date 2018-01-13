@@ -1,3 +1,5 @@
+**NOTE: THIS HAS BEEN DEPRECATED. Use [this](https://github.com/genomics-geek/cookiecutter-django/tree/feature-integrate-cra) instead.  Integrates Facebooks create react app with Django :)**
+
 # An example project for a Dockerized Django/ReactJS web application
 
 I set this up because it was __SUCH__ a pain in the a** to set up a web application with all of the latest technologies.  I created this as a boilerplate after much research and reading of blogs. For a detailed step by step for creating this project look [here](https://gist.github.com/genomics-geek/98929a9e7ba9602fed7bfa4a5a1c5c4e/). Or you can just clone [this repo](https://github.com/genomics-geek/django_reactjs_boilerplate) and follow the [local deployment instructions](https://github.com/genomics-geek/django_reactjs_boilerplate#setup-local-environment).
