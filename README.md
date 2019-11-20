@@ -1,4 +1,4 @@
-**NOTE: THIS HAS BEEN DEPRECATED. Use [this](https://github.com/genomics-geek/cookiecutter-django/tree/feature-integrate-cra) instead.  Integrates Facebooks create react app with Django :)**
+**NOTE: THIS HAS BEEN DEPRECATED. Use [this](https://github.com/chopdgd/cookiecutter-django-reactjs) instead.  Integrates Facebooks create react app with Django :)**
 
 # An example project for a Dockerized Django/ReactJS web application
 
